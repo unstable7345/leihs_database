@@ -3441,6 +3441,7 @@ CREATE TABLE public.reservations (
     line_purpose text,
     start_time time without time zone,
     end_time time without time zone,
+    returned_at timestamp without time zone,
     CONSTRAINT check_allowed_statuses CHECK ((status = ANY (ARRAY['draft'::text, 'unsubmitted'::text, 'submitted'::text, 'canceled'::text, 'rejected'::text, 'approved'::text, 'signed'::text, 'closed'::text]))),
     CONSTRAINT check_model_id_or_option_id_on_reservations CHECK (((model_id IS NOT NULL) OR (option_id IS NOT NULL))),
     CONSTRAINT check_non_null_end_date CHECK ((((status = 'draft'::text) AND ((end_date IS NULL) OR (end_date IS NOT NULL))) OR (end_date IS NOT NULL))),
@@ -7224,6 +7225,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
 ('8'),
+('74'),
 ('73'),
 ('72'),
 ('71'),
