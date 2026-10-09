@@ -3439,12 +3439,17 @@ CREATE TABLE public.reservations (
     updated_at timestamp without time zone NOT NULL,
     order_id uuid,
     line_purpose text,
+    start_time time without time zone,
+    end_time time without time zone,
     CONSTRAINT check_allowed_statuses CHECK ((status = ANY (ARRAY['draft'::text, 'unsubmitted'::text, 'submitted'::text, 'canceled'::text, 'rejected'::text, 'approved'::text, 'signed'::text, 'closed'::text]))),
     CONSTRAINT check_model_id_or_option_id_on_reservations CHECK (((model_id IS NOT NULL) OR (option_id IS NOT NULL))),
     CONSTRAINT check_non_null_end_date CHECK ((((status = 'draft'::text) AND ((end_date IS NULL) OR (end_date IS NOT NULL))) OR (end_date IS NOT NULL))),
     CONSTRAINT check_non_null_quantity CHECK ((((status = 'draft'::text) AND ((quantity IS NULL) OR (quantity IS NOT NULL))) OR (quantity IS NOT NULL))),
     CONSTRAINT check_non_null_start_date CHECK ((((status = 'draft'::text) AND ((start_date IS NULL) OR (start_date IS NOT NULL))) OR (start_date IS NOT NULL))),
     CONSTRAINT check_order_id_for_different_statuses_of_item_line CHECK (((((type)::text = 'ItemLine'::text) AND (((status = ANY (ARRAY['draft'::text, 'unsubmitted'::text])) AND (order_id IS NULL)) OR ((status = ANY (ARRAY['submitted'::text, 'rejected'::text, 'canceled'::text])) AND (order_id IS NOT NULL)) OR (status = ANY (ARRAY['approved'::text, 'signed'::text, 'closed'::text])))) OR (((type)::text = 'OptionLine'::text) AND (status = ANY (ARRAY['approved'::text, 'signed'::text, 'closed'::text]))))),
+    CONSTRAINT check_time_window_complete CHECK (((start_time IS NULL) = (end_time IS NULL))),
+    CONSTRAINT check_time_window_single_day CHECK (((start_time IS NULL) OR (start_date = end_date))),
+    CONSTRAINT check_time_window_start_before_end CHECK (((start_time IS NULL) OR (start_time < end_time))),
     CONSTRAINT check_valid_status_and_contract_id CHECK ((((status = ANY (ARRAY['draft'::text, 'unsubmitted'::text, 'submitted'::text, 'rejected'::text, 'canceled'::text, 'approved'::text])) AND (contract_id IS NULL)) OR ((status = ANY (ARRAY['signed'::text, 'closed'::text])) AND (contract_id IS NOT NULL))))
 );
 
@@ -3576,6 +3581,24 @@ CREATE TABLE public.system_and_security_settings (
     instance_element text,
     public_image_caching_enabled boolean DEFAULT true,
     CONSTRAINT id_is_zero CHECK ((id = 0))
+);
+
+
+--
+-- Name: time_slots; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.time_slots (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    inventory_pool_id uuid NOT NULL,
+    name text NOT NULL,
+    start_time time without time zone NOT NULL,
+    end_time time without time zone NOT NULL,
+    "position" integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT time_slots_name_not_blank CHECK ((name !~ '^\s*$'::text)),
+    CONSTRAINT time_slots_start_time_before_end_time CHECK ((start_time < end_time))
 );
 
 
@@ -4302,6 +4325,14 @@ ALTER TABLE ONLY public.suspensions
 
 ALTER TABLE ONLY public.system_and_security_settings
     ADD CONSTRAINT system_and_security_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: time_slots time_slots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.time_slots
+    ADD CONSTRAINT time_slots_pkey PRIMARY KEY (id);
 
 
 --
@@ -5272,6 +5303,13 @@ CREATE INDEX index_suspensions_on_suspended_until ON public.suspensions USING bt
 --
 
 CREATE UNIQUE INDEX index_suspensions_on_user_id_and_inventory_pool_id ON public.suspensions USING btree (user_id, inventory_pool_id);
+
+
+--
+-- Name: index_time_slots_on_inventory_pool_id_and_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_time_slots_on_inventory_pool_id_and_name ON public.time_slots USING btree (inventory_pool_id, name);
 
 
 --
@@ -6354,6 +6392,14 @@ ALTER TABLE ONLY public.procurement_organizations
 
 
 --
+-- Name: time_slots fk_rails_0b84d9bf3c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.time_slots
+    ADD CONSTRAINT fk_rails_0b84d9bf3c FOREIGN KEY (inventory_pool_id) REFERENCES public.inventory_pools(id) ON DELETE CASCADE;
+
+
+--
 -- Name: items fk_rails_0ed18b3bf9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7178,6 +7224,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
 ('8'),
+('73'),
 ('72'),
 ('71'),
 ('70'),
