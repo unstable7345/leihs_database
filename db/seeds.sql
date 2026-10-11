@@ -10,8 +10,8 @@
 --
 
 
--- Dumped from database version 15.18 (Homebrew)
--- Dumped by pg_dump version 15.18 (Homebrew)
+-- Dumped from database version 15.19 (Homebrew)
+-- Dumped by pg_dump version 15.19 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -310,7 +310,7 @@ Inventory pool: {{ inventory_pool.name }}
 User: {{ user.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -346,7 +346,7 @@ Inventory pool: {{ inventory_pool.name }}
 User: {{ user.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -372,42 +372,6 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.69381', '2025-02-13 10:06:19.746115', true, 'order', 'en-US', '[leihs] Order received');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('00f6c4fa-9d85-4736-a51b-54a890d0d492', NULL, 'received', 'text', 'Dear leihs manager,
-
-** This is an automatically generated response **
-
-An order for the following items listed below was received in an inventory pool you are responsible for.
-
-Inventory pool: {{ inventory_pool.name }}
-User: {{ user.name }}
-
-{% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
-{% endfor %}
-
-Purpose:
-{{ purpose }}
-
-This order is still pending. Please log in to your leihs system and either approve or reject it.
-
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
-
-Kind regards,
-
-{{ email_signature }}
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.696546', '2025-02-13 10:06:19.747199', true, 'order', 'de-CH', '[leihs] Bestellung eingetroffen');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('745ab92c-0ec1-41ec-896a-5e06a0cc1c68', NULL, 'received', 'text', 'Dear leihs manager,
 
 ** This is an automatically generated response **
@@ -418,7 +382,7 @@ Inventory pool: {{ inventory_pool.name }}
 User: {{ user.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -444,6 +408,42 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2022-08-19 10:02:17.774905', '2025-02-13 10:06:19.765143', true, 'order', 'es', '[leihs] Orden recibida');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('00f6c4fa-9d85-4736-a51b-54a890d0d492', NULL, 'received', 'text', 'Dear leihs manager,
+
+** This is an automatically generated response **
+
+An order for the following items listed below was received in an inventory pool you are responsible for.
+
+Inventory pool: {{ inventory_pool.name }}
+User: {{ user.name }}
+
+{% for l in reservations %}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
+{% endfor %}
+
+Purpose:
+{{ purpose }}
+
+This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+
+Kind regards,
+
+{{ email_signature }}
+
+--
+{{ inventory_pool.name }}
+{{ inventory_pool.contact }}
+
+Our opening times are as follows:
+{{ inventory_pool.workdays }}
+
+Please take note of our planned holidays:
+{{ inventory_pool.holidays }}
+
+{{ inventory_pool.description }}
+', '2021-04-21 11:18:46.696546', '2025-02-13 10:06:19.747199', true, 'order', 'de-CH', '[leihs] Bestellung eingetroffen');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('4b949422-52c9-497b-b7a9-c726a64c5e66', NULL, 'received', 'text', 'Dear leihs manager,
 
 ** This is an automatically generated response **
@@ -454,7 +454,7 @@ Inventory pool: {{ inventory_pool.name }}
 User: {{ user.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -490,7 +490,7 @@ Inventory pool: {{ inventory_pool.name }}
 User: {{ user.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -524,7 +524,7 @@ The following items are overdue or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -563,7 +563,7 @@ The following items are overdue or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -602,7 +602,7 @@ The following items are overdue or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -633,6 +633,42 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.675096', '2025-02-13 10:06:19.738202', true, 'user', 'de-CH', '[leihs] Erinnerung');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2b265bcf-cd7e-490f-a22f-dec80ed72520', NULL, 'approved', 'text', 'Dear {{ user.name }},
+
+** This is an automatically generated response **
+
+Your order for the following items has been confirmed by the inventory manager:
+
+Inventory pool: {{ inventory_pool.name }}
+
+{% for l in reservations %}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
+{% endfor %}
+
+{% if comment %}
+
+These are the comments of the inventory manager:
+
+{{ comment }}
+
+{% endif %}
+
+Kind regards,
+
+{{ email_signature }}
+
+--
+{{ inventory_pool.name }}
+{{ inventory_pool.contact }}
+
+Our opening times are as follows:
+{{ inventory_pool.workdays }}
+
+Please take note of our planned holidays:
+{{ inventory_pool.holidays }}
+
+{{ inventory_pool.description }}
+', '2022-08-19 10:02:17.795054', '2025-02-13 10:06:19.768302', true, 'order', 'es', '[leihs] Reserva Confirmada');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('76041eb2-061a-4aa9-8d32-3c4327dad7b2', NULL, 'reminder', 'text', 'Dear {{ user.name }},
 
 ** This is an automatically generated response **
@@ -641,7 +677,7 @@ The following items are overdue or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -680,7 +716,7 @@ The following items are overdue or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -719,7 +755,7 @@ The following items are overdue or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -759,7 +795,7 @@ Your order for the following items has been confirmed by the inventory manager:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {% if comment %}
@@ -795,7 +831,7 @@ Your order for the following items has been confirmed by the inventory manager:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {% if comment %}
@@ -831,7 +867,7 @@ Your order for the following items has been confirmed by the inventory manager:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {% if comment %}
@@ -858,42 +894,6 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.733687', '2025-02-13 10:06:19.755091', true, 'order', 'de-CH', '[leihs] Reservationsbestätigung');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2b265bcf-cd7e-490f-a22f-dec80ed72520', NULL, 'approved', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order for the following items has been confirmed by the inventory manager:
-
-Inventory pool: {{ inventory_pool.name }}
-
-{% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
-{% endfor %}
-
-{% if comment %}
-
-These are the comments of the inventory manager:
-
-{{ comment }}
-
-{% endif %}
-
-Kind regards,
-
-{{ email_signature }}
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.795054', '2025-02-13 10:06:19.768302', true, 'order', 'es', '[leihs] Reserva Confirmada');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6c2d9bc7-b50e-40c8-ade9-64180960259a', NULL, 'approved', 'text', 'Dear {{ user.name }},
 
 ** This is an automatically generated response **
@@ -903,7 +903,7 @@ Your order for the following items has been confirmed by the inventory manager:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {% if comment %}
@@ -939,7 +939,7 @@ Your order for the following items has been confirmed by the inventory manager:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {% if comment %}
@@ -975,7 +975,7 @@ Your order was rejected for the following reason:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {{ comment }}
@@ -1005,7 +1005,7 @@ Your order was rejected for the following reason:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {{ comment }}
@@ -1035,7 +1035,7 @@ Your order was rejected for the following reason:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {{ comment }}
@@ -1065,7 +1065,7 @@ Your order was rejected for the following reason:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {{ comment }}
@@ -1095,7 +1095,7 @@ Your order was rejected for the following reason:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {{ comment }}
@@ -1125,7 +1125,7 @@ Your order was rejected for the following reason:
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 {{ comment }}
@@ -1155,7 +1155,7 @@ Your order for the following items listed below was successfully submitted.
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -1188,7 +1188,7 @@ Your order for the following items listed below was successfully submitted.
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -1221,7 +1221,7 @@ Your order for the following items listed below was successfully submitted.
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -1254,7 +1254,7 @@ Your order for the following items listed below was successfully submitted.
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -1287,7 +1287,7 @@ Your order for the following items listed below was successfully submitted.
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -1320,7 +1320,7 @@ Your order for the following items listed below was successfully submitted.
 Inventory pool: {{ inventory_pool.name }}
 
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 Purpose:
@@ -1352,7 +1352,7 @@ The following items are due to be returned tomorrow or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -1389,7 +1389,7 @@ The following items are due to be returned tomorrow or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -1426,7 +1426,7 @@ The following items are due to be returned tomorrow or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -1463,7 +1463,7 @@ The following items are due to be returned tomorrow or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -1500,7 +1500,7 @@ The following items are due to be returned tomorrow or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -1537,7 +1537,7 @@ The following items are due to be returned tomorrow or need to be inspected:
 
 {{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}
+* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
 {% endfor %}
 
 == Are any of the above items your personal computer?
@@ -1749,6 +1749,12 @@ INSERT INTO public.smtp_settings (id, enabled, address, authentication_type, def
 --
 
 INSERT INTO public.system_and_security_settings (id, accept_server_secret_as_universal_password, external_base_url, sessions_force_secure, sessions_force_uniqueness, sessions_max_lifetime_secs, instance_element, public_image_caching_enabled) VALUES (0, true, NULL, false, false, 432000, NULL, true);
+
+
+--
+-- Data for Name: time_slots; Type: TABLE DATA; Schema: public; Owner: -
+--
+
 
 
 --
