@@ -3591,24 +3591,6 @@ CREATE TABLE public.system_and_security_settings (
 
 
 --
--- Name: time_slots; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.time_slots (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    inventory_pool_id uuid NOT NULL,
-    name text NOT NULL,
-    start_time time without time zone NOT NULL,
-    end_time time without time zone NOT NULL,
-    "position" integer DEFAULT 0 NOT NULL,
-    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL,
-    CONSTRAINT time_slots_name_not_blank CHECK ((name !~ '^\s*$'::text)),
-    CONSTRAINT time_slots_start_time_before_end_time CHECK ((start_time < end_time))
-);
-
-
---
 -- Name: unified_customer_orders; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -4331,14 +4313,6 @@ ALTER TABLE ONLY public.suspensions
 
 ALTER TABLE ONLY public.system_and_security_settings
     ADD CONSTRAINT system_and_security_settings_pkey PRIMARY KEY (id);
-
-
---
--- Name: time_slots time_slots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.time_slots
-    ADD CONSTRAINT time_slots_pkey PRIMARY KEY (id);
 
 
 --
@@ -5309,13 +5283,6 @@ CREATE INDEX index_suspensions_on_suspended_until ON public.suspensions USING bt
 --
 
 CREATE UNIQUE INDEX index_suspensions_on_user_id_and_inventory_pool_id ON public.suspensions USING btree (user_id, inventory_pool_id);
-
-
---
--- Name: index_time_slots_on_inventory_pool_id_and_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_time_slots_on_inventory_pool_id_and_name ON public.time_slots USING btree (inventory_pool_id, name);
 
 
 --
@@ -6398,14 +6365,6 @@ ALTER TABLE ONLY public.procurement_organizations
 
 
 --
--- Name: time_slots fk_rails_0b84d9bf3c; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.time_slots
-    ADD CONSTRAINT fk_rails_0b84d9bf3c FOREIGN KEY (inventory_pool_id) REFERENCES public.inventory_pools(id) ON DELETE CASCADE;
-
-
---
 -- Name: items fk_rails_0ed18b3bf9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7230,6 +7189,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
 ('8'),
+('77'),
 ('76'),
 ('75'),
 ('74'),
