@@ -2712,7 +2712,9 @@ CREATE TABLE public.entitlement_groups (
     inventory_pool_id uuid NOT NULL,
     is_verification_required boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    max_reservation_hours integer,
+    CONSTRAINT check_max_reservation_hours_positive CHECK (((max_reservation_hours IS NULL) OR (max_reservation_hours > 0)))
 );
 
 
@@ -2960,7 +2962,11 @@ CREATE TABLE public.inventory_pools (
     borrow_maximum_reservation_duration integer,
     deliver_received_order_emails boolean DEFAULT false NOT NULL,
     email_signature text,
-    contact text
+    contact text,
+    hourly_reservations boolean DEFAULT false NOT NULL,
+    hourly_reservations_start_time time without time zone,
+    hourly_reservations_end_time time without time zone,
+    CONSTRAINT check_hourly_reservations_times CHECK (((NOT hourly_reservations) OR ((hourly_reservations_start_time IS NOT NULL) AND (hourly_reservations_end_time IS NOT NULL) AND (hourly_reservations_start_time < hourly_reservations_end_time))))
 );
 
 
@@ -3449,8 +3455,7 @@ CREATE TABLE public.reservations (
     CONSTRAINT check_non_null_start_date CHECK ((((status = 'draft'::text) AND ((start_date IS NULL) OR (start_date IS NOT NULL))) OR (start_date IS NOT NULL))),
     CONSTRAINT check_order_id_for_different_statuses_of_item_line CHECK (((((type)::text = 'ItemLine'::text) AND (((status = ANY (ARRAY['draft'::text, 'unsubmitted'::text])) AND (order_id IS NULL)) OR ((status = ANY (ARRAY['submitted'::text, 'rejected'::text, 'canceled'::text])) AND (order_id IS NOT NULL)) OR (status = ANY (ARRAY['approved'::text, 'signed'::text, 'closed'::text])))) OR (((type)::text = 'OptionLine'::text) AND (status = ANY (ARRAY['approved'::text, 'signed'::text, 'closed'::text]))))),
     CONSTRAINT check_time_window_complete CHECK (((start_time IS NULL) = (end_time IS NULL))),
-    CONSTRAINT check_time_window_single_day CHECK (((start_time IS NULL) OR (start_date = end_date))),
-    CONSTRAINT check_time_window_start_before_end CHECK (((start_time IS NULL) OR (start_time < end_time))),
+    CONSTRAINT check_time_window_start_before_end CHECK (((start_time IS NULL) OR ((start_date + start_time) < (end_date + end_time)))),
     CONSTRAINT check_valid_status_and_contract_id CHECK ((((status = ANY (ARRAY['draft'::text, 'unsubmitted'::text, 'submitted'::text, 'rejected'::text, 'canceled'::text, 'approved'::text])) AND (contract_id IS NULL)) OR ((status = ANY (ARRAY['signed'::text, 'closed'::text])) AND (contract_id IS NOT NULL))))
 );
 
@@ -7225,6 +7230,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
 ('8'),
+('76'),
 ('75'),
 ('74'),
 ('73'),
