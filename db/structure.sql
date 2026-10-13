@@ -7189,6 +7189,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
 ('8'),
+('78'),
 ('77'),
 ('76'),
 ('75'),
