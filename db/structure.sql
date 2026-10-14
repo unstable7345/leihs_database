@@ -2868,11 +2868,15 @@ CREATE TABLE public.models (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     cover_image_id uuid,
-    name text GENERATED ALWAYS AS (
+    name text GENERATED ALWAYS AS ((
+CASE
+    WHEN (NULLIF(btrim((manufacturer)::text), ''::text) IS NULL) THEN ''::text
+    ELSE (btrim((manufacturer)::text) || ' '::text)
+END ||
 CASE
     WHEN (version IS NULL) THEN (product)::text
     ELSE (((product)::text || ' '::text) || (version)::text)
-END) STORED
+END)) STORED
 );
 
 
@@ -7189,6 +7193,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
 ('8'),
+('79'),
 ('78'),
 ('77'),
 ('76'),
