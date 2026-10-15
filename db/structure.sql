@@ -3025,6 +3025,16 @@ CREATE TABLE public.items (
 
 
 --
+-- Name: items_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.items_tags (
+    item_id uuid NOT NULL,
+    tag_id uuid NOT NULL
+);
+
+
+--
 -- Name: languages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3595,6 +3605,22 @@ CREATE TABLE public.system_and_security_settings (
 
 
 --
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tags (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    inventory_pool_id uuid NOT NULL,
+    name text NOT NULL,
+    color text DEFAULT '#e4572e'::text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    CONSTRAINT tags_color_is_hex CHECK ((color ~ '^#[0-9a-fA-F]{6}$'::text)),
+    CONSTRAINT tags_name_not_blank CHECK ((name !~ '^\s*$'::text))
+);
+
+
+--
 -- Name: unified_customer_orders; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -4040,6 +4066,14 @@ ALTER TABLE ONLY public.items
 
 
 --
+-- Name: items_tags items_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.items_tags
+    ADD CONSTRAINT items_tags_pkey PRIMARY KEY (item_id, tag_id);
+
+
+--
 -- Name: languages languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4317,6 +4351,14 @@ ALTER TABLE ONLY public.suspensions
 
 ALTER TABLE ONLY public.system_and_security_settings
     ADD CONSTRAINT system_and_security_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -4968,6 +5010,13 @@ CREATE INDEX index_items_on_supplier_id ON public.items USING btree (supplier_id
 
 
 --
+-- Name: index_items_tags_on_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_items_tags_on_tag_id ON public.items_tags USING btree (tag_id);
+
+
+--
 -- Name: index_languages_on_active_and_default; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5336,6 +5385,13 @@ CREATE UNIQUE INDEX rooms_unique_building_id_general_true ON public.rooms USING 
 --
 
 CREATE UNIQUE INDEX rooms_unique_name_and_building_id ON public.rooms USING btree ((((lower((name)::text) || ' '::text) || building_id)));
+
+
+--
+-- Name: tags_unique_name_per_pool; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX tags_unique_name_per_pool ON public.tags USING btree (inventory_pool_id, lower(name));
 
 
 --
@@ -7185,6 +7241,30 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: items_tags items_tags_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.items_tags
+    ADD CONSTRAINT items_tags_item_id_fkey FOREIGN KEY (item_id) REFERENCES public.items(id) ON DELETE CASCADE;
+
+
+--
+-- Name: items_tags items_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.items_tags
+    ADD CONSTRAINT items_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(id) ON DELETE CASCADE;
+
+
+--
+-- Name: tags tags_inventory_pool_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_inventory_pool_id_fkey FOREIGN KEY (inventory_pool_id) REFERENCES public.inventory_pools(id) ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -7192,6 +7272,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('80'),
 ('8'),
 ('79'),
 ('78'),
