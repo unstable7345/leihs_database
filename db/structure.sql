@@ -2970,7 +2970,9 @@ CREATE TABLE public.inventory_pools (
     hourly_reservations boolean DEFAULT false NOT NULL,
     hourly_reservations_start_time time without time zone,
     hourly_reservations_end_time time without time zone,
-    CONSTRAINT check_hourly_reservations_times CHECK (((NOT hourly_reservations) OR ((hourly_reservations_start_time IS NOT NULL) AND (hourly_reservations_end_time IS NOT NULL) AND (hourly_reservations_start_time < hourly_reservations_end_time))))
+    notification_email text,
+    CONSTRAINT check_hourly_reservations_times CHECK (((NOT hourly_reservations) OR ((hourly_reservations_start_time IS NOT NULL) AND (hourly_reservations_end_time IS NOT NULL) AND (hourly_reservations_start_time < hourly_reservations_end_time)))),
+    CONSTRAINT inventory_pools_notification_email_valid CHECK (((notification_email IS NULL) OR (notification_email ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'::text)))
 );
 
 
@@ -7272,6 +7274,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('82'),
 ('80'),
 ('8'),
 ('79'),
