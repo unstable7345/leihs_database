@@ -3088,7 +3088,9 @@ CREATE TABLE public.model_groups (
     type character varying,
     name character varying NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    outlook_calendar text,
+    CONSTRAINT model_groups_outlook_calendar_valid CHECK (((outlook_calendar IS NULL) OR (((type)::text = 'Category'::text) AND (outlook_calendar ~ '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'::text))))
 );
 
 
@@ -3161,6 +3163,21 @@ CREATE TABLE public.orders (
     CONSTRAINT check_state_and_reject_reason_consistency CHECK ((((state = ANY (ARRAY['submitted'::text, 'rejected'::text, 'canceled'::text, 'approved'::text])) AND (reject_reason IS NULL)) OR ((state = 'rejected'::text) AND (reject_reason IS NOT NULL)))),
     CONSTRAINT check_valid_state CHECK ((state = ANY (ARRAY['submitted'::text, 'rejected'::text, 'canceled'::text, 'approved'::text]))),
     CONSTRAINT reject_reason_not_blank CHECK (((reject_reason IS NULL) OR ((reject_reason)::text !~ '^ *$'::text)))
+);
+
+
+--
+-- Name: outlook_calendar_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.outlook_calendar_events (
+    reservation_id uuid NOT NULL,
+    mailbox text NOT NULL,
+    event_id text NOT NULL,
+    fingerprint text NOT NULL,
+    ends_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -4151,6 +4168,14 @@ ALTER TABLE ONLY public.options
 
 ALTER TABLE ONLY public.orders
     ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: outlook_calendar_events outlook_calendar_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.outlook_calendar_events
+    ADD CONSTRAINT outlook_calendar_events_pkey PRIMARY KEY (reservation_id, mailbox);
 
 
 --
@@ -7272,6 +7297,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('81'),
 ('80'),
 ('8'),
 ('79'),
