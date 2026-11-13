@@ -3179,7 +3179,8 @@ CREATE TABLE public.outlook_calendar_events (
     fingerprint text NOT NULL,
     ends_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    calendar text
 );
 
 
@@ -7299,6 +7300,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('83'),
 ('82'),
 ('81'),
 ('80'),
