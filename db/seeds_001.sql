@@ -555,9 +555,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -591,9 +593,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -627,9 +631,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -1094,9 +1100,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -1311,9 +1319,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -1524,9 +1534,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 

@@ -317,9 +317,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -353,9 +355,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -389,9 +393,11 @@ Usuario: {{ user.name }}
 Motivo:
 {{ purpose }}
 
-Este pedido todavía está pendiente. Inicia sesión en leihs para aprobarlo o rechazarlo.
+{% if approved %}Este pedido se aprobó automáticamente (reserva por horas dentro del mismo día). No hace falta aprobarlo; prepara el material para la recogida.
 
-La persona que hizo el pedido ha recibido un mensaje parecido que le informa de que el pedido debe aprobarse antes de ser válido.
+La persona que hizo el pedido ha recibido un mensaje que le confirma la aprobación.{% else %}Este pedido todavía está pendiente. Inicia sesión en leihs para aprobarlo o rechazarlo.
+
+La persona que hizo el pedido ha recibido un mensaje parecido que le informa de que el pedido debe aprobarse antes de ser válido.{% endif %}
 
 Saludos cordiales,
 
@@ -425,9 +431,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -461,9 +469,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -497,9 +507,11 @@ User: {{ user.name }}
 Purpose:
 {{ purpose }}
 
-This order is still pending. Please log in to your leihs system and either approve or reject it.
+{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.
+The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+
+The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
 
@@ -1408,9 +1420,11 @@ Usuari: {{ user.name }}
 Motiu:
 {{ purpose }}
 
-Aquesta comanda encara està pendent. Inicia la sessió a leihs per aprovar-la o rebutjar-la.
+{% if approved %}Aquesta comanda s''ha aprovat automàticament (reserva per hores dins del mateix dia). No cal aprovar-la; prepara el material per a la recollida.
 
-La persona que ha fet la comanda ha rebut un missatge semblant que l''informa que la comanda s''ha d''aprovar abans de ser vàlida.
+La persona que ha fet la comanda ha rebut un missatge que li confirma l''aprovació.{% else %}Aquesta comanda encara està pendent. Inicia la sessió a leihs per aprovar-la o rebutjar-la.
+
+La persona que ha fet la comanda ha rebut un missatge semblant que l''informa que la comanda s''ha d''aprovar abans de ser vàlida.{% endif %}
 
 Salutacions cordials,
 
