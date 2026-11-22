@@ -2687,8 +2687,10 @@ CREATE TABLE public.emails (
     is_successful boolean,
     error_message text,
     source_pool_id uuid,
+    format text DEFAULT 'text'::text NOT NULL,
     CONSTRAINT check_trial_success_or_error CHECK ((((trials = 0) AND (is_successful IS NULL) AND (error_message IS NULL)) OR ((trials > 0) AND (((is_successful = true) AND (error_message IS NULL)) OR ((is_successful = false) AND (error_message IS NOT NULL)))))),
-    CONSTRAINT check_user_id_or_inventory_pool_id_not_null CHECK (((user_id IS NOT NULL) OR (inventory_pool_id IS NOT NULL)))
+    CONSTRAINT check_user_id_or_inventory_pool_id_not_null CHECK (((user_id IS NOT NULL) OR (inventory_pool_id IS NOT NULL))),
+    CONSTRAINT emails_format_check CHECK ((format = ANY (ARRAY['text'::text, 'markdown'::text])))
 );
 
 
@@ -3068,6 +3070,18 @@ CREATE TABLE public.mail_templates (
     language_locale text NOT NULL,
     subject text,
     CONSTRAINT mail_templates_check CHECK ((((inventory_pool_id IS NULL) AND (is_template_template IS TRUE)) OR ((inventory_pool_id IS NOT NULL) AND (is_template_template IS FALSE))))
+);
+
+
+--
+-- Name: mail_templates_pre_087; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mail_templates_pre_087 (
+    id uuid,
+    format character varying,
+    subject text,
+    body text
 );
 
 
@@ -7303,6 +7317,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('87'),
 ('86'),
 ('85'),
 ('84'),
