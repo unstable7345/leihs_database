@@ -499,20 +499,7 @@ If you need more time, or something here is wrong, reply to this email. Late ret
 
 [View your rentals]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.66507', '2025-02-13 10:06:19.734443', true, 'user', 'en-GB', 'Some items are overdue');
@@ -528,20 +515,7 @@ If you need more time, or something here is wrong, reply to this email. Late ret
 
 [View your rentals]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.672173', '2025-02-13 10:06:19.736967', true, 'user', 'en-US', 'Some items are overdue');
@@ -676,20 +650,7 @@ Hi {{ user.name }},
 
 [View your order]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.716005', '2025-02-13 10:06:19.753337', true, 'order', 'en-GB', 'Your order is confirmed');
@@ -707,20 +668,7 @@ Hi {{ user.name }},
 
 [View your order]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.730452', '2025-02-13 10:06:19.754193', true, 'order', 'en-US', 'Your order is confirmed');
@@ -846,20 +794,7 @@ Hi {{ user.name }},
 
 If you have any questions, reply to this email.
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.739877', '2025-02-13 10:06:19.756709', true, 'order', 'en-GB', 'Your order wasn''t approved');
@@ -877,20 +812,7 @@ Hi {{ user.name }},
 
 If you have any questions, reply to this email.
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.742632', '2025-02-13 10:06:19.757495', true, 'order', 'en-US', 'Your order wasn''t approved');
@@ -997,20 +919,7 @@ Your order at {{ inventory_pool.name }} is waiting for approval. You''ll get ano
 
 [View your order]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.702694', '2025-02-13 10:06:19.749686', true, 'order', 'en-GB', 'We''ve received your order');
@@ -1027,20 +936,7 @@ Your order at {{ inventory_pool.name }} is waiting for approval. You''ll get ano
 
 [View your order]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
-
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.705521', '2025-02-13 10:06:19.75064', true, 'order', 'en-US', 'We''ve received your order');
@@ -1155,23 +1051,11 @@ Someone may be waiting for them, so try to return them on time. If you need more
 
 [View your rentals]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
 
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
-
 This is an automatic message from leihs.
-', '2021-04-21 11:18:46.681011', '2025-02-13 10:06:19.740475', true, 'user', 'en-GB', 'Items due back tomorrow');
+', '2021-04-21 11:18:46.681011', '2025-02-13 10:06:19.740475', true, 'user', 'en-GB', 'Items due back tomorrow
+');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('f305ada7-3a1c-4171-9e7a-27b417978fc4', NULL, 'deadline_soon_reminder', 'markdown', '# Items due back tomorrow
 
 Hi {{ user.name }},
@@ -1184,24 +1068,10 @@ Someone may be waiting for them, so try to return them on time. If you need more
 
 [View your rentals]({{ rental_url }})
 
-{{ email_signature }}
-
 ---
 
-**{{ inventory_pool.name }}**
-{{ inventory_pool.contact }}
-
-### Opening hours
-{{ inventory_pool.workdays }}
-{% if inventory_pool.holidays and inventory_pool.holidays != "" %}
-### Closed
-{{ inventory_pool.holidays }}
-{% endif %}
-{{ inventory_pool.description }}
-
 This is an automatic message from leihs.
-', '2021-04-21 11:18:46.683518', '2025-02-13 10:06:19.741591', true, 'user', 'en-US', 'Items due back tomorrow
-');
+', '2021-04-21 11:18:46.683518', '2025-02-13 10:06:19.741591', true, 'user', 'en-US', 'Items due back tomorrow');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('8cf51778-26ac-4cae-af42-2c769b95b639', NULL, 'deadline_soon_reminder', 'text', 'Dear {{ user.name }},
 
 ** This is an automatically generated response **
