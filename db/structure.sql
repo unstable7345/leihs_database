@@ -3084,6 +3084,16 @@ CREATE TABLE public.mail_templates_pre_087 (
 
 
 --
+-- Name: mail_templates_pre_089; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mail_templates_pre_089 (
+    id uuid,
+    body text
+);
+
+
+--
 -- Name: model_group_links; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -7315,6 +7325,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('89'),
 ('88'),
 ('87'),
 ('85'),
