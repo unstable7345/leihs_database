@@ -359,8 +359,6 @@ La persona que hizo el pedido ha recibido un mensaje parecido que le informa de 
 
 Saludos cordiales,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -396,8 +394,6 @@ The user who placed this order has received an e-mail message confirming the app
 The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -435,8 +431,6 @@ The user who placed this order has received a similar e-mail message informing t
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -472,8 +466,6 @@ The user who placed this order has received an e-mail message confirming the app
 The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -544,8 +536,6 @@ You might receive an admonishment and be subject to late fees as well as the res
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -583,8 +573,6 @@ You might receive an admonishment and be subject to late fees as well as the res
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -621,8 +609,6 @@ By not returning these items, you are blocking other people''s reservations. Thi
 You might receive an admonishment and be subject to late fees as well as the restriction of borrowing privileges. In case of recurrence you might be barred from the reservation system for up to 6 months.
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -694,8 +680,6 @@ These are the comments of the inventory manager:
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -730,8 +714,6 @@ These are the comments of the inventory manager:
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -765,8 +747,6 @@ These are the comments of the inventory manager:
 {% endif %}
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -832,8 +812,6 @@ Inventory pool: {{ inventory_pool.name }}
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -862,8 +840,6 @@ Inventory pool: {{ inventory_pool.name }}
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -891,8 +867,6 @@ Inventory pool: {{ inventory_pool.name }}
 {{ comment }}
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -959,8 +933,6 @@ Unfortunately your order is still pending, but you will soon receive a confirmat
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -992,8 +964,6 @@ Unfortunately your order is still pending, but you will soon receive a confirmat
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1024,8 +994,6 @@ Purpose:
 Unfortunately your order is still pending, but you will soon receive a confirmation of order by separate e-mail. You can view the status of your order through your leihs account.
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -1095,8 +1063,6 @@ In the interest of all our clients we ask you to observe the return dates.
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1132,8 +1098,6 @@ In the interest of all our clients we ask you to observe the return dates.
 
 Kind regards,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1168,8 +1132,6 @@ We are just sending you this little reminder because someone else is already wai
 In the interest of all our clients we ask you to observe the return dates.
 
 Kind regards,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -1207,8 +1169,6 @@ La persona que ha fet la comanda ha rebut un missatge semblant que l''informa qu
 
 Salutacions cordials,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1239,8 +1199,6 @@ Motiu:
 La teva comanda encara està pendent, però aviat rebràs la confirmació en un altre correu. Pots consultar l''estat de la comanda al teu compte de leihs.
 
 Salutacions cordials,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -1276,8 +1234,6 @@ Comentaris del personal del grup d''inventari:
 
 Salutacions cordials,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1305,8 +1261,6 @@ Grup d''inventari: {{ inventory_pool.name }}
 {{ comment }}
 
 Salutacions cordials,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -1345,8 +1299,6 @@ Podries rebre una amonestació, haver de pagar recàrrecs per retard i veure lim
 
 Salutacions cordials,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1382,8 +1334,6 @@ Per respecte a la resta d''usuaris, et demanem que compleixis les dates de retor
 
 Salutacions cordials,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1414,8 +1364,6 @@ Motivo:
 Tu pedido todavía está pendiente, pero pronto recibirás la confirmación en otro correo. Puedes consultar el estado del pedido en tu cuenta de leihs.
 
 Saludos cordiales,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -1451,8 +1399,6 @@ Comentarios del personal del grupo de inventario:
 
 Saludos cordiales,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1480,8 +1426,6 @@ Grupo de inventario: {{ inventory_pool.name }}
 {{ comment }}
 
 Saludos cordiales,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
@@ -1520,8 +1464,6 @@ Podrías recibir una amonestación, tener que pagar recargos por retraso y ver l
 
 Saludos cordiales,
 
-{{ email_signature }}
-
 --
 {{ inventory_pool.name }}
 {{ inventory_pool.contact }}
@@ -1556,8 +1498,6 @@ Te enviamos este recordatorio porque otra persona ya está esperando alguno de e
 Por respeto al resto de usuarios, te pedimos que cumplas las fechas de devolución.
 
 Saludos cordiales,
-
-{{ email_signature }}
 
 --
 {{ inventory_pool.name }}
