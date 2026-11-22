@@ -2876,7 +2876,8 @@ END ||
 CASE
     WHEN (version IS NULL) THEN (product)::text
     ELSE (((product)::text || ' '::text) || (version)::text)
-END)) STORED
+END)) STORED,
+    CONSTRAINT models_version_not_blank CHECK (((version IS NULL) OR ((version)::text !~ '^\s*$'::text)))
 );
 
 
@@ -2898,7 +2899,8 @@ CASE
     ELSE (((product)::text || ' '::text) || (version)::text)
 END) STORED,
     created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+    updated_at timestamp without time zone DEFAULT now(),
+    CONSTRAINT options_version_not_blank CHECK (((version IS NULL) OR ((version)::text !~ '^\s*$'::text)))
 );
 
 
@@ -7301,6 +7303,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('9'),
+('86'),
 ('85'),
 ('84'),
 ('83'),
