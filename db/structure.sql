@@ -7326,6 +7326,7 @@ ALTER TABLE ONLY public.tags
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('90'),
 ('9'),
 ('89'),
 ('88'),

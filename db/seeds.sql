@@ -301,7 +301,8 @@ INSERT INTO public.fields (id, active, "position", data, dynamic) VALUES ('model
 -- Data for Name: mail_templates; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('98757b9e-9891-4363-b74f-3a2110931195', NULL, 'received', 'markdown', '# {% if approved %}New order, approved automatically{% else %}New order to review{% endif %}
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('98757b9e-9891-4363-b74f-3a2110931195', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}New order, approved automatically{% else %}New order to review{% endif %}
 
 {{ user.name }} placed an order at {{ inventory_pool.name }}.
 {% for l in reservations %}
@@ -318,7 +319,8 @@ INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, cr
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.691262', '2025-02-13 10:06:19.745002', true, 'order', 'en-GB', '[leihs] New order');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2865004b-00b4-4815-a4f6-4f39c48617bf', NULL, 'received', 'markdown', '# {% if approved %}New order, approved automatically{% else %}New order to review{% endif %}
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2865004b-00b4-4815-a4f6-4f39c48617bf', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}New order, approved automatically{% else %}New order to review{% endif %}
 
 {{ user.name }} placed an order at {{ inventory_pool.name }}.
 {% for l in reservations %}
@@ -479,7 +481,8 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.699276', '2025-02-13 10:06:19.748695', true, 'order', 'gsw-CH', '[leihs] Bschtelig aachoo');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('91b0fff1-1264-429a-ba5c-a628641bf2b5', NULL, 'reminder', 'markdown', '# Some items are overdue
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('91b0fff1-1264-429a-ba5c-a628641bf2b5', NULL, 'reminder', 'markdown', '<!-- red -->
+# Some items are overdue
 
 Hi {{ user.name }},
 
@@ -495,7 +498,8 @@ If you need more time, or something here is wrong, reply to this email. Late ret
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.66507', '2025-02-13 10:06:19.734443', true, 'user', 'en-GB', 'Some items are overdue');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6d22d1c8-38ad-4be0-8b03-7dada8ee0e03', NULL, 'reminder', 'markdown', '# Some items are overdue
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6d22d1c8-38ad-4be0-8b03-7dada8ee0e03', NULL, 'reminder', 'markdown', '<!-- red -->
+# Some items are overdue
 
 Hi {{ user.name }},
 
@@ -622,7 +626,8 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.677886', '2025-02-13 10:06:19.739346', true, 'user', 'gsw-CH', '[leihs] Erinnerig');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('a3248d8a-c153-4573-bb8e-f81238c48542', NULL, 'approved', 'markdown', '# Your order is confirmed
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('a3248d8a-c153-4573-bb8e-f81238c48542', NULL, 'approved', 'markdown', '<!-- green -->
+# Your order is confirmed
 
 Hi {{ user.name }},
 
@@ -640,7 +645,8 @@ Hi {{ user.name }},
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.716005', '2025-02-13 10:06:19.753337', true, 'order', 'en-GB', 'Your order is confirmed');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('cc3ca99d-5d08-4816-a7f8-1d464c60e338', NULL, 'approved', 'markdown', '# Your order is confirmed
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('cc3ca99d-5d08-4816-a7f8-1d464c60e338', NULL, 'approved', 'markdown', '<!-- green -->
+# Your order is confirmed
 
 Hi {{ user.name }},
 
@@ -760,7 +766,8 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.736548', '2025-02-13 10:06:19.755933', true, 'order', 'gsw-CH', '[leihs] Reservationsbeschtätigung');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6d6ec0f8-eda3-404f-b0dd-a8d9c0f68bd2', NULL, 'rejected', 'markdown', '# Your order wasn''t approved
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6d6ec0f8-eda3-404f-b0dd-a8d9c0f68bd2', NULL, 'rejected', 'markdown', '<!-- red -->
+# Your order wasn''t approved
 
 Hi {{ user.name }},
 
@@ -778,7 +785,8 @@ If you have any questions, reply to this email.
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.739877', '2025-02-13 10:06:19.756709', true, 'order', 'en-GB', 'Your order wasn''t approved');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('30bed262-6deb-44c0-a8ea-4d5bb4ca3b1f', NULL, 'rejected', 'markdown', '# Your order wasn''t approved
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('30bed262-6deb-44c0-a8ea-4d5bb4ca3b1f', NULL, 'rejected', 'markdown', '<!-- red -->
+# Your order wasn''t approved
 
 Hi {{ user.name }},
 
@@ -880,7 +888,8 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.748278', '2025-02-13 10:06:19.759106', true, 'order', 'gsw-CH', '[leihs] Reservation abglehnt');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('17570c6d-5888-409f-bfbb-49d667fb7dda', NULL, 'submitted', 'markdown', '# We''ve received your order
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('17570c6d-5888-409f-bfbb-49d667fb7dda', NULL, 'submitted', 'markdown', '<!-- amber -->
+# We''ve received your order
 
 Hi {{ user.name }},
 
@@ -897,7 +906,8 @@ Your order at {{ inventory_pool.name }} is waiting for approval. You''ll get ano
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.702694', '2025-02-13 10:06:19.749686', true, 'order', 'en-GB', 'We''ve received your order');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('5f75b6d3-60dd-4693-bff1-a055282b11b1', NULL, 'submitted', 'markdown', '# We''ve received your order
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('5f75b6d3-60dd-4693-bff1-a055282b11b1', NULL, 'submitted', 'markdown', '<!-- amber -->
+# We''ve received your order
 
 Hi {{ user.name }},
 
@@ -1007,7 +1017,8 @@ Please take note of our planned holidays:
 
 {{ inventory_pool.description }}
 ', '2021-04-21 11:18:46.711856', '2025-02-13 10:06:19.752447', true, 'order', 'gsw-CH', '[leihs] Reservation abgschickt');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('a1bb0ddf-e1df-42ad-9dbd-ce6978af3a8e', NULL, 'deadline_soon_reminder', 'markdown', '# Items due back tomorrow
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('a1bb0ddf-e1df-42ad-9dbd-ce6978af3a8e', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Items due back tomorrow
 
 Hi {{ user.name }},
 
@@ -1024,7 +1035,8 @@ Someone may be waiting for them, so try to return them on time. If you need more
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.681011', '2025-02-13 10:06:19.740475', true, 'user', 'en-GB', 'Items due back tomorrow
 ');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('f305ada7-3a1c-4171-9e7a-27b417978fc4', NULL, 'deadline_soon_reminder', 'markdown', '# Items due back tomorrow
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('f305ada7-3a1c-4171-9e7a-27b417978fc4', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Items due back tomorrow
 
 Hi {{ user.name }},
 
