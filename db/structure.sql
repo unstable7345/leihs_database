@@ -3096,6 +3096,18 @@ CREATE TABLE public.mail_templates_pre_089 (
 
 
 --
+-- Name: mail_templates_pre_091; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mail_templates_pre_091 (
+    id uuid,
+    format character varying,
+    subject text,
+    body text
+);
+
+
+--
 -- Name: model_group_links; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -7326,6 +7338,7 @@ ALTER TABLE ONLY public.tags
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('91'),
 ('90'),
 ('9'),
 ('89'),

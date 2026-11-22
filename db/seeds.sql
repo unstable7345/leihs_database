@@ -337,150 +337,78 @@ INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, cr
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.69381', '2025-02-13 10:06:19.746115', true, 'order', 'en-US', '[leihs] New order');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('745ab92c-0ec1-41ec-896a-5e06a0cc1c68', NULL, 'received', 'text', 'Hola:
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('745ab92c-0ec1-41ec-896a-5e06a0cc1c68', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}Pedido nuevo, aprobado automáticamente{% else %}Pedido nuevo para revisar{% endif %}
 
-** Este es un mensaje generado automáticamente **
-
-Se ha recibido un pedido de los siguientes artículos en un grupo de inventario del que eres responsable.
-
-Grupo de inventario: {{ inventory_pool.name }}
-Usuario: {{ user.name }}
-
+{{ user.name }} hizo un pedido en {{ inventory_pool.name }}.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
-Motivo:
+### Finalidad
 {{ purpose }}
 
-{% if approved %}Este pedido se aprobó automáticamente (reserva por horas dentro del mismo día). No hace falta aprobarlo; prepara el material para la recogida.
+{% if approved %}Se aprobó automáticamente, por ser una reserva por horas dentro del mismo día. No hay nada que aprobar: solo hace falta tener los artículos listos para la recogida.{% else %}Está pendiente de aprobación. Quien lo hizo sabe que no es válido hasta que se apruebe.{% endif %}
 
-La persona que hizo el pedido ha recibido un mensaje que le confirma la aprobación.{% else %}Este pedido todavía está pendiente. Inicia sesión en leihs para aprobarlo o rechazarlo.
+[Abrir el pedido]({{ order_url }})
 
-La persona que hizo el pedido ha recibido un mensaje parecido que le informa de que el pedido debe aprobarse antes de ser válido.{% endif %}
+---
 
-Saludos cordiales,
+Este es un mensaje automático de leihs.
+', '2022-08-19 10:02:17.774905', '2025-02-13 10:06:19.765143', true, 'order', 'es', '[leihs] Pedido nuevo');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('00f6c4fa-9d85-4736-a51b-54a890d0d492', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}Neue Bestellung, automatisch genehmigt{% else %}Neue Bestellung zu prüfen{% endif %}
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Nuestro horario de atención es el siguiente:
-{{ inventory_pool.workdays }}
-
-Ten en cuenta nuestros días festivos previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.774905', '2025-02-13 10:06:19.765143', true, 'order', 'es', '[leihs] Pedido recibido');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('00f6c4fa-9d85-4736-a51b-54a890d0d492', NULL, 'received', 'text', 'Dear leihs manager,
-
-** This is an automatically generated response **
-
-An order for the following items listed below was received in an inventory pool you are responsible for.
-
-Inventory pool: {{ inventory_pool.name }}
-User: {{ user.name }}
-
+{{ user.name }} hat bei {{ inventory_pool.name }} eine Bestellung aufgegeben.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-Purpose:
+### Zweck
 {{ purpose }}
 
-{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
+{% if approved %}Sie wurde automatisch genehmigt, da es eine stundenweise Reservation am selben Tag ist. Es gibt nichts zu genehmigen: Halten Sie die Gegenstände zur Abholung bereit.{% else %}Sie wartet auf Ihre Genehmigung. Die Person, die sie aufgegeben hat, weiss, dass sie erst nach der Genehmigung gilt.{% endif %}
 
-The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+[Bestellung öffnen]({{ order_url }})
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
+---
 
-Kind regards,
+Dies ist eine automatische Nachricht von leihs.
+', '2021-04-21 11:18:46.696546', '2025-02-13 10:06:19.747199', true, 'order', 'de-CH', '[leihs] Neue Bestellung');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('4b949422-52c9-497b-b7a9-c726a64c5e66', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}Nouvelle commande, approuvée automatiquement{% else %}Nouvelle commande à examiner{% endif %}
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.696546', '2025-02-13 10:06:19.747199', true, 'order', 'de-CH', '[leihs] Bestellung eingetroffen');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('4b949422-52c9-497b-b7a9-c726a64c5e66', NULL, 'received', 'text', 'Dear leihs manager,
-
-** This is an automatically generated response **
-
-An order for the following items listed below was received in an inventory pool you are responsible for.
-
-Inventory pool: {{ inventory_pool.name }}
-User: {{ user.name }}
-
+{{ user.name }} a passé une commande auprès de {{ inventory_pool.name }}.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-Purpose:
+### Motif
 {{ purpose }}
 
-{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
+{% if approved %}Elle a été approuvée automatiquement, car c’est une réservation à l’heure dans la même journée. Il n’y a rien à approuver : préparez simplement les objets pour le retrait.{% else %}Elle attend votre approbation. La personne qui l’a passée sait qu’elle n’est valable qu’une fois approuvée.{% endif %}
 
-The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+[Ouvrir la commande]({{ order_url }})
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
+---
 
-Kind regards,
+Ceci est un message automatique de leihs.
+', '2022-08-19 10:02:17.7778', '2025-02-13 10:06:19.765902', true, 'order', 'fr-CH', '[leihs] Nouvelle commande');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('01841af3-fc44-4b43-8e44-f9b8edbf1c42', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}Neui Bstellig, automatisch gnehmigt{% else %}Neui Bstellig zum Prüefe{% endif %}
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.7778', '2025-02-13 10:06:19.765902', true, 'order', 'fr-CH', '[leihs] Commande reçue');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('01841af3-fc44-4b43-8e44-f9b8edbf1c42', NULL, 'received', 'text', 'Dear leihs manager,
-
-** This is an automatically generated response **
-
-An order for the following items listed below was received in an inventory pool you are responsible for.
-
-Inventory pool: {{ inventory_pool.name }}
-User: {{ user.name }}
-
+{{ user.name }} hät bi {{ inventory_pool.name }} e Bstellig gmacht.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-Purpose:
+### Zwäck
 {{ purpose }}
 
-{% if approved %}This order was approved automatically (a reservation by the hour within the same day). There is nothing to approve; please have the items ready for pick up.
+{% if approved %}Sie isch automatisch gnehmigt worde, will s e Reservation nach Stunde am gliiche Tag isch. Es git nüt z gnehmige: Mached Sie d Sache für d Abholig parat.{% else %}Sie wartet uf Ihri Gnehmigung. D Person, wo sie gmacht hät, weiss, dass sie erscht nach de Gnehmigung gilt.{% endif %}
 
-The user who placed this order has received an e-mail message confirming the approval.{% else %}This order is still pending. Please log in to your leihs system and either approve or reject it.
+[Bstellig uftue]({{ order_url }})
 
-The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid.{% endif %}
+---
 
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.699276', '2025-02-13 10:06:19.748695', true, 'order', 'gsw-CH', '[leihs] Bschtelig aachoo');
+Das isch e automatischi Nachricht vo leihs.
+', '2021-04-21 11:18:46.699276', '2025-02-13 10:06:19.748695', true, 'order', 'gsw-CH', '[leihs] Neui Bstellig');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('91b0fff1-1264-429a-ba5c-a628641bf2b5', NULL, 'reminder', 'markdown', '<!-- red -->
 # Some items are overdue
 
@@ -515,117 +443,57 @@ If you need more time, or something here is wrong, reply to this email. Late ret
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.672173', '2025-02-13 10:06:19.736967', true, 'user', 'en-US', 'Some items are overdue');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('872a30d5-b0c9-4100-b915-8d83445191e4', NULL, 'reminder', 'text', 'Dear {{ user.name }},
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('872a30d5-b0c9-4100-b915-8d83445191e4', NULL, 'reminder', 'markdown', '<!-- red -->
+# Einige Gegenstände sind überfällig
 
-** This is an automatically generated response **
+Hallo {{ user.name }}
 
-The following items are overdue or need to be inspected:
-
-{{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
+Diese Gegenstände von {{ inventory_pool.name }} hätten am {{ due_date | date: ''%d.%m.%Y'' }} zurückgegeben werden sollen. Bitte bringen Sie sie so bald wie möglich zurück: Andere Personen haben sie vielleicht reserviert.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== Are any of the above items your personal computer?
+Wenn Sie mehr Zeit brauchen oder hier etwas nicht stimmt, antworten Sie auf diese E-Mail. Verspätete Rückgaben können Ihre künftigen Reservationen einschränken.
 
-We kindly ask you to contact us as soon as possible. Your computer might need an update.
+[Ausleihen ansehen]({{ rental_url }})
 
-== "Are any of the above borrowed items?
+---
 
-Since we did not receive any request for renewal, we consequently demand the return of the items without further delay.
+Dies ist eine automatische Nachricht von leihs.
+', '2021-04-21 11:18:46.675096', '2025-02-13 10:06:19.738202', true, 'user', 'de-CH', 'Einige Gegenstände sind überfällig');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('3a0a7b70-e1a2-45b7-824e-4bc5ae89c757', NULL, 'reminder', 'markdown', '<!-- red -->
+# Des objets sont en retard
 
-By not returning these items, you are blocking other people''s reservations. This is very unfair to the other clients and to the inventory manager, since you are causing a significant amount of trouble and annoyance.
+Bonjour {{ user.name }},
 
-You might receive an admonishment and be subject to late fees as well as the restriction of borrowing privileges. In case of recurrence you might be barred from the reservation system for up to 6 months.
-
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.675096', '2025-02-13 10:06:19.738202', true, 'user', 'de-CH', '[leihs] Erinnerung');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('3a0a7b70-e1a2-45b7-824e-4bc5ae89c757', NULL, 'reminder', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-The following items are overdue or need to be inspected:
-
-{{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
+Ces objets de {{ inventory_pool.name }} devaient être rendus le {{ due_date | date: ''%d.%m.%Y'' }}. Merci de les rapporter dès que possible : d’autres personnes les ont peut-être réservés.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== Are any of the above items your personal computer?
+Si vous avez besoin de plus de temps, ou si quelque chose est incorrect, répondez à cet e-mail. Les retours en retard peuvent limiter vos prochaines réservations.
 
-We kindly ask you to contact us as soon as possible. Your computer might need an update.
+[Voir vos emprunts]({{ rental_url }})
 
-== "Are any of the above borrowed items?
+---
 
-Since we did not receive any request for renewal, we consequently demand the return of the items without further delay.
+Ceci est un message automatique de leihs.
+', '2022-08-19 10:02:17.742412', '2025-02-13 10:06:19.762335', true, 'user', 'fr-CH', 'Des objets sont en retard');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('1399c847-28bf-4778-9584-2127fd17733d', NULL, 'reminder', 'markdown', '<!-- red -->
+# Es paar Sache sind überfällig
 
-By not returning these items, you are blocking other people''s reservations. This is very unfair to the other clients and to the inventory manager, since you are causing a significant amount of trouble and annoyance.
+Hoi {{ user.name }}
 
-You might receive an admonishment and be subject to late fees as well as the restriction of borrowing privileges. In case of recurrence you might be barred from the reservation system for up to 6 months.
-
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.742412', '2025-02-13 10:06:19.762335', true, 'user', 'fr-CH', '[leihs] Rappel');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('1399c847-28bf-4778-9584-2127fd17733d', NULL, 'reminder', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-The following items are overdue or need to be inspected:
-
-{{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
+Die Sache vo {{ inventory_pool.name }} hetted am {{ due_date | date: ''%d.%m.%Y'' }} sölle zruggbracht werde. Bitte bringed Sie sie so schnäll wie möglich zrugg: Anderi händ sie vilicht reserviert.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== Are any of the above items your personal computer?
+Wänn Sie meh Ziit bruuched oder öppis da nöd stimmt, antworted Sie uf die E-Mail. Wer z spaat zruggbringt, cha spöter weniger reserviere.
 
-We kindly ask you to contact us as soon as possible. Your computer might need an update.
+[Uusleihe aaluege]({{ rental_url }})
 
-== "Are any of the above borrowed items?
+---
 
-Since we did not receive any request for renewal, we consequently demand the return of the items without further delay.
-
-By not returning these items, you are blocking other people''s reservations. This is very unfair to the other clients and to the inventory manager, since you are causing a significant amount of trouble and annoyance.
-
-You might receive an admonishment and be subject to late fees as well as the restriction of borrowing privileges. In case of recurrence you might be barred from the reservation system for up to 6 months.
-
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.677886', '2025-02-13 10:06:19.739346', true, 'user', 'gsw-CH', '[leihs] Erinnerig');
+Das isch e automatischi Nachricht vo leihs.
+', '2021-04-21 11:18:46.677886', '2025-02-13 10:06:19.739346', true, 'user', 'gsw-CH', 'Es paar Sache sind überfällig');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('a3248d8a-c153-4573-bb8e-f81238c48542', NULL, 'approved', 'markdown', '<!-- green -->
 # Your order is confirmed
 
@@ -664,108 +532,63 @@ Hi {{ user.name }},
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.730452', '2025-02-13 10:06:19.754193', true, 'order', 'en-US', 'Your order is confirmed');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('bc72996d-d639-436d-940a-47c0e60aceec', NULL, 'approved', 'text', 'Dear {{ user.name }},
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('bc72996d-d639-436d-940a-47c0e60aceec', NULL, 'approved', 'markdown', '<!-- green -->
+# Ihre Bestellung ist bestätigt
 
-** This is an automatically generated response **
+Hallo {{ user.name }}
 
-Your order for the following items has been confirmed by the inventory manager:
-
-Inventory pool: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} hat Ihre Bestellung genehmigt. Holen Sie die Gegenstände zu Beginn Ihrer Reservation ab.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-{% if comment %}
-
-These are the comments of the inventory manager:
-
-{{ comment }}
-
+{% if comment and comment != "" %}
+> {{ comment }}
 {% endif %}
 
-Kind regards,
+[Bestellung ansehen]({{ rental_url }})
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
+Dies ist eine automatische Nachricht von leihs.
+', '2021-04-21 11:18:46.733687', '2025-02-13 10:06:19.755091', true, 'order', 'de-CH', 'Ihre Bestellung ist bestätigt');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6c2d9bc7-b50e-40c8-ade9-64180960259a', NULL, 'approved', 'markdown', '<!-- green -->
+# Votre commande est confirmée
 
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
+Bonjour {{ user.name }},
 
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.733687', '2025-02-13 10:06:19.755091', true, 'order', 'de-CH', '[leihs] Reservationsbestätigung');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6c2d9bc7-b50e-40c8-ade9-64180960259a', NULL, 'approved', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order for the following items has been confirmed by the inventory manager:
-
-Inventory pool: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} a approuvé votre commande. Venez chercher les objets au début de votre réservation.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-{% if comment %}
-
-These are the comments of the inventory manager:
-
-{{ comment }}
-
+{% if comment and comment != "" %}
+> {{ comment }}
 {% endif %}
 
-Kind regards,
+[Voir la commande]({{ rental_url }})
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
+Ceci est un message automatique de leihs.
+', '2022-08-19 10:02:17.797556', '2025-02-13 10:06:19.769089', true, 'order', 'fr-CH', 'Votre commande est confirmée');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('99d4cb9b-abbf-4629-9c14-31275d8e0c91', NULL, 'approved', 'markdown', '<!-- green -->
+# Ihri Bstellig isch bschtätigt
 
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
+Hoi {{ user.name }}
 
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.797556', '2025-02-13 10:06:19.769089', true, 'order', 'fr-CH', '[leihs] Confirmation de réservation');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('99d4cb9b-abbf-4629-9c14-31275d8e0c91', NULL, 'approved', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order for the following items has been confirmed by the inventory manager:
-
-Inventory pool: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} hät Ihri Bstellig gnehmigt. Holed Sie d Sache am Aafang vo Ihrer Reservation ab.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-{% if comment %}
-
-These are the comments of the inventory manager:
-
-{{ comment }}
-
+{% if comment and comment != "" %}
+> {{ comment }}
 {% endif %}
 
-Kind regards,
+[Bstellig aaluege]({{ rental_url }})
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.736548', '2025-02-13 10:06:19.755933', true, 'order', 'gsw-CH', '[leihs] Reservationsbeschtätigung');
+Das isch e automatischi Nachricht vo leihs.
+', '2021-04-21 11:18:46.736548', '2025-02-13 10:06:19.755933', true, 'order', 'gsw-CH', 'Ihri Bstellig isch bschtätigt');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('6d6ec0f8-eda3-404f-b0dd-a8d9c0f68bd2', NULL, 'rejected', 'markdown', '<!-- red -->
 # Your order wasn''t approved
 
@@ -804,90 +627,63 @@ If you have any questions, reply to this email.
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.742632', '2025-02-13 10:06:19.757495', true, 'order', 'en-US', 'Your order wasn''t approved');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2b8655ee-a6c9-4468-91f0-7b0268d5506c', NULL, 'rejected', 'text', 'Dear {{ user.name }},
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2b8655ee-a6c9-4468-91f0-7b0268d5506c', NULL, 'rejected', 'markdown', '<!-- red -->
+# Ihre Bestellung wurde nicht genehmigt
 
-** This is an automatically generated response **
+Hallo {{ user.name }}
 
-Your order was rejected for the following reason:
-
-Inventory pool: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} konnte Ihre Bestellung für diese Gegenstände nicht genehmigen:
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-{{ comment }}
+{% if comment and comment != "" %}
+> {{ comment }}
+{% endif %}
 
-Kind regards,
+Bei Fragen antworten Sie einfach auf diese E-Mail.
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
+Dies ist eine automatische Nachricht von leihs.
+', '2021-04-21 11:18:46.745393', '2025-02-13 10:06:19.758263', true, 'order', 'de-CH', 'Ihre Bestellung wurde nicht genehmigt');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('78b63877-30f7-4811-a9f8-ba75b0907637', NULL, 'rejected', 'markdown', '<!-- red -->
+# Votre commande n’a pas été approuvée
 
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
+Bonjour {{ user.name }},
 
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.745393', '2025-02-13 10:06:19.758263', true, 'order', 'de-CH', '[leihs] Reservation abgelehnt');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('78b63877-30f7-4811-a9f8-ba75b0907637', NULL, 'rejected', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order was rejected for the following reason:
-
-Inventory pool: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} n’a pas pu approuver votre commande pour ces objets :
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-{{ comment }}
+{% if comment and comment != "" %}
+> {{ comment }}
+{% endif %}
 
-Kind regards,
+Pour toute question, répondez simplement à cet e-mail.
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
+Ceci est un message automatique de leihs.
+', '2022-08-19 10:02:17.807154', '2025-02-13 10:06:19.761533', true, 'order', 'fr-CH', 'Votre commande n’a pas été approuvée');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('4025675b-11cf-4c00-8515-faa63fcffd90', NULL, 'rejected', 'markdown', '<!-- red -->
+# Ihri Bstellig isch nöd gnehmigt worde
 
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
+Hoi {{ user.name }}
 
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.807154', '2025-02-13 10:06:19.761533', true, 'order', 'fr-CH', '[leihs] Réservation refusée');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('4025675b-11cf-4c00-8515-faa63fcffd90', NULL, 'rejected', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order was rejected for the following reason:
-
-Inventory pool: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} hät Ihri Bstellig für die Sache nöd chöne gnehmige:
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-{{ comment }}
+{% if comment and comment != "" %}
+> {{ comment }}
+{% endif %}
 
-Kind regards,
+Wänn Sie Frage händ, antworted Sie eifach uf die E-Mail.
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.748278', '2025-02-13 10:06:19.759106', true, 'order', 'gsw-CH', '[leihs] Reservation abglehnt');
+Das isch e automatischi Nachricht vo leihs.
+', '2021-04-21 11:18:46.748278', '2025-02-13 10:06:19.759106', true, 'order', 'gsw-CH', 'Ihri Bstellig isch nöd gnehmigt worde');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('17570c6d-5888-409f-bfbb-49d667fb7dda', NULL, 'submitted', 'markdown', '<!-- amber -->
 # We''ve received your order
 
@@ -924,99 +720,60 @@ Your order at {{ inventory_pool.name }} is waiting for approval. You''ll get ano
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.705521', '2025-02-13 10:06:19.75064', true, 'order', 'en-US', 'We''ve received your order');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('09a59f8c-97ad-4b66-9b82-da9423822046', NULL, 'submitted', 'text', 'Dear {{ user.name }},
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('09a59f8c-97ad-4b66-9b82-da9423822046', NULL, 'submitted', 'markdown', '<!-- amber -->
+# Wir haben Ihre Bestellung erhalten
 
-** This is an automatically generated response **
+Hallo {{ user.name }}
 
-Your order for the following items listed below was successfully submitted.
-
-Inventory pool: {{ inventory_pool.name }}
-
+Ihre Bestellung bei {{ inventory_pool.name }} wartet auf Genehmigung. Sie erhalten eine weitere E-Mail, sobald das Team sie geprüft hat.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-Purpose:
+### Zweck
 {{ purpose }}
 
-Unfortunately your order is still pending, but you will soon receive a confirmation of order by separate e-mail. You can view the status of your order through your leihs account.
+[Bestellung ansehen]({{ rental_url }})
 
-Kind regards,
+---
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+Dies ist eine automatische Nachricht von leihs.
+', '2021-04-21 11:18:46.708533', '2025-02-13 10:06:19.751591', true, 'order', 'de-CH', 'Wir haben Ihre Bestellung erhalten');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('e4eea6ad-2272-4faa-91d8-eb8c986b91c0', NULL, 'submitted', 'markdown', '<!-- amber -->
+# Nous avons bien reçu votre commande
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
+Bonjour {{ user.name }},
 
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.708533', '2025-02-13 10:06:19.751591', true, 'order', 'de-CH', '[leihs] Reservation abgeschickt');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('e4eea6ad-2272-4faa-91d8-eb8c986b91c0', NULL, 'submitted', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order for the following items listed below was successfully submitted.
-
-Inventory pool: {{ inventory_pool.name }}
-
+Votre commande auprès de {{ inventory_pool.name }} attend d’être approuvée. Vous recevrez un autre e-mail dès que l’équipe l’aura examinée.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-Purpose:
+### Motif
 {{ purpose }}
 
-Unfortunately your order is still pending, but you will soon receive a confirmation of order by separate e-mail. You can view the status of your order through your leihs account.
+[Voir la commande]({{ rental_url }})
 
-Kind regards,
+---
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+Ceci est un message automatique de leihs.
+', '2022-08-19 10:02:17.787875', '2025-02-13 10:06:19.767495', true, 'order', 'fr-CH', 'Nous avons bien reçu votre commande');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('96f1bfd3-fb9e-4489-ac8e-2135c685034d', NULL, 'submitted', 'markdown', '<!-- amber -->
+# Mir händ Ihri Bstellig übercho
 
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
+Hoi {{ user.name }}
 
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.787875', '2025-02-13 10:06:19.767495', true, 'order', 'fr-CH', '[leihs] Réservation envoyée');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('96f1bfd3-fb9e-4489-ac8e-2135c685034d', NULL, 'submitted', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-Your order for the following items listed below was successfully submitted.
-
-Inventory pool: {{ inventory_pool.name }}
-
+Ihri Bstellig bi {{ inventory_pool.name }} wartet uf d Gnehmigung. Sie überchömed e wiiteri E-Mail, sobald s Team sie aagluegt hät.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d.%m.%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d.%m.%Y'' }}{% else %}{{ l.start_date | date: ''%d.%m.%Y'' }} – {{ l.end_date | date: ''%d.%m.%Y'' }}{% endif %}{% endfor %}
 
-Purpose:
+### Zwäck
 {{ purpose }}
 
-Unfortunately your order is still pending, but you will soon receive a confirmation of order by separate e-mail. You can view the status of your order through your leihs account.
+[Bstellig aaluege]({{ rental_url }})
 
-Kind regards,
+---
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.711856', '2025-02-13 10:06:19.752447', true, 'order', 'gsw-CH', '[leihs] Reservation abgschickt');
+Das isch e automatischi Nachricht vo leihs.
+', '2021-04-21 11:18:46.711856', '2025-02-13 10:06:19.752447', true, 'order', 'gsw-CH', 'Mir händ Ihri Bstellig übercho');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('a1bb0ddf-e1df-42ad-9dbd-ce6978af3a8e', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
 # Items due back tomorrow
 
@@ -1033,8 +790,7 @@ Someone may be waiting for them, so try to return them on time. If you need more
 ---
 
 This is an automatic message from leihs.
-', '2021-04-21 11:18:46.681011', '2025-02-13 10:06:19.740475', true, 'user', 'en-GB', 'Items due back tomorrow
-');
+', '2021-04-21 11:18:46.681011', '2025-02-13 10:06:19.740475', true, 'user', 'en-GB', 'Items due back tomorrow');
 INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('f305ada7-3a1c-4171-9e7a-27b417978fc4', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
 # Items due back tomorrow
 
@@ -1052,477 +808,255 @@ Someone may be waiting for them, so try to return them on time. If you need more
 
 This is an automatic message from leihs.
 ', '2021-04-21 11:18:46.683518', '2025-02-13 10:06:19.741591', true, 'user', 'en-US', 'Items due back tomorrow');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('8cf51778-26ac-4cae-af42-2c769b95b639', NULL, 'deadline_soon_reminder', 'text', 'Dear {{ user.name }},
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('8cf51778-26ac-4cae-af42-2c769b95b639', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Rückgabe morgen
 
-** This is an automatically generated response **
+Hallo {{ user.name }}
 
-The following items are due to be returned tomorrow or need to be inspected:
-
-{{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
+Eine kurze Erinnerung: Diese Gegenstände von {{ inventory_pool.name }} müssen am {{ due_date | date: ''%d.%m.%Y'' }} zurückgegeben werden.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== Are any of the above items your personal computer?
+Vielleicht wartet schon jemand darauf, bringen Sie sie also bitte rechtzeitig zurück. Wenn Sie mehr Zeit brauchen, antworten Sie auf diese E-Mail.
 
-We kindly ask you to contact us as soon as possible. Your computer might need an update.
+[Ausleihen ansehen]({{ rental_url }})
 
-== "Are any of the above borrowed items?
+---
 
-We are just sending you this little reminder because someone else is already waiting for some of these items.
+Dies ist eine automatische Nachricht von leihs.
+', '2021-04-21 11:18:46.685905', '2025-02-13 10:06:19.7428', true, 'user', 'de-CH', 'Rückgabe morgen');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('21fea574-3e8a-4bb9-8c73-26faa809bada', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Objets à rendre demain
 
-In the interest of all our clients we ask you to observe the return dates.
+Bonjour {{ user.name }},
 
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.685905', '2025-02-13 10:06:19.7428', true, 'user', 'de-CH', '[leihs] Einige Gegenstände sollten morgen zurückgebracht werden');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('21fea574-3e8a-4bb9-8c73-26faa809bada', NULL, 'deadline_soon_reminder', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-The following items are due to be returned tomorrow or need to be inspected:
-
-{{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
+Petit rappel : ces objets de {{ inventory_pool.name }} doivent être rendus le {{ due_date | date: ''%d.%m.%Y'' }}.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== Are any of the above items your personal computer?
+Quelqu’un les attend peut-être, alors essayez de les rendre à temps. Si vous avez besoin de plus de temps, répondez à cet e-mail.
 
-We kindly ask you to contact us as soon as possible. Your computer might need an update.
+[Voir vos emprunts]({{ rental_url }})
 
-== "Are any of the above borrowed items?
+---
 
-We are just sending you this little reminder because someone else is already waiting for some of these items.
+Ceci est un message automatique de leihs.
+', '2022-08-19 10:02:17.749979', '2025-02-13 10:06:19.764358', true, 'user', 'fr-CH', 'Objets à rendre demain');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('29f61894-ffa8-41d1-a3f4-031448e25c89', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Morn zruggbringe
 
-In the interest of all our clients we ask you to observe the return dates.
+Hoi {{ user.name }}
 
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.749979', '2025-02-13 10:06:19.764358', true, 'user', 'fr-CH', '[leihs] Des éléments doivent être retourné demain');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('29f61894-ffa8-41d1-a3f4-031448e25c89', NULL, 'deadline_soon_reminder', 'text', 'Dear {{ user.name }},
-
-** This is an automatically generated response **
-
-The following items are due to be returned tomorrow or need to be inspected:
-
-{{ quantity }} item(s) due on {{ due_date | date: ''%d/%m/%Y'' }} at the inventory pool {{ inventory_pool.name }}
+E churzi Erinnerig: Die Sache vo {{ inventory_pool.name }} münd am {{ due_date | date: ''%d.%m.%Y'' }} zruggbracht werde.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.time_slot %}, {{ l.time_slot }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== Are any of the above items your personal computer?
+Vilicht wartet scho öpper druf, bringed Sie sie also bitte rächtziitig zrugg. Wänn Sie meh Ziit bruuched, antworted Sie uf die E-Mail.
 
-We kindly ask you to contact us as soon as possible. Your computer might need an update.
+[Uusleihe aaluege]({{ rental_url }})
 
-== "Are any of the above borrowed items?
+---
 
-We are just sending you this little reminder because someone else is already waiting for some of these items.
+Das isch e automatischi Nachricht vo leihs.
+', '2021-04-21 11:18:46.688424', '2025-02-13 10:06:19.743907', true, 'user', 'gsw-CH', 'Morn zruggbringe');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('f462d1d3-1acf-41a2-ae2d-24b5a287c101', NULL, 'received', 'markdown', '{% if approved %}<!-- green -->{% else %}<!-- amber -->{% endif %}
+# {% if approved %}Comanda nova, aprovada automàticament{% else %}Comanda nova per revisar{% endif %}
 
-In the interest of all our clients we ask you to observe the return dates.
-
-Kind regards,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Our opening times are as follows:
-{{ inventory_pool.workdays }}
-
-Please take note of our planned holidays:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2021-04-21 11:18:46.688424', '2025-02-13 10:06:19.743907', true, 'user', 'gsw-CH', '[leihs] Einige Sache sötted morn zruggbracht werde');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('f462d1d3-1acf-41a2-ae2d-24b5a287c101', NULL, 'received', 'text', 'Hola:
-
-** Aquest és un missatge generat automàticament **
-
-S''ha rebut una comanda dels articles següents en un grup d''inventari del qual ets responsable.
-
-Grup d''inventari: {{ inventory_pool.name }}
-Usuari: {{ user.name }}
-
+{{ user.name }} ha fet una comanda a {{ inventory_pool.name }}.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
-Motiu:
+### Finalitat
 {{ purpose }}
 
-{% if approved %}Aquesta comanda s''ha aprovat automàticament (reserva per hores dins del mateix dia). No cal aprovar-la; prepara el material per a la recollida.
+{% if approved %}S’ha aprovat automàticament, perquè és una reserva per hores dins del mateix dia. No cal aprovar res: només cal tenir els articles a punt per recollir.{% else %}Està pendent d’aprovació. Qui l’ha fet sap que no és vàlida fins que s’aprovi.{% endif %}
 
-La persona que ha fet la comanda ha rebut un missatge que li confirma l''aprovació.{% else %}Aquesta comanda encara està pendent. Inicia la sessió a leihs per aprovar-la o rebutjar-la.
+[Obrir la comanda]({{ order_url }})
 
-La persona que ha fet la comanda ha rebut un missatge semblant que l''informa que la comanda s''ha d''aprovar abans de ser vàlida.{% endif %}
+---
 
-Salutacions cordials,
+Aquest és un missatge automàtic de leihs.
+', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', '[leihs] Comanda nova');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('85646ee0-1579-4210-b89b-38b1f4a58733', NULL, 'submitted', 'markdown', '<!-- amber -->
+# Hem rebut la teva comanda
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+Hola, {{ user.name }}:
 
-El nostre horari d''atenció és el següent:
-{{ inventory_pool.workdays }}
-
-Tingues en compte els nostres dies festius previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', '[leihs] Comanda rebuda');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('85646ee0-1579-4210-b89b-38b1f4a58733', NULL, 'submitted', 'text', 'Hola, {{ user.name }}:
-
-** Aquest és un missatge generat automàticament **
-
-La teva comanda dels articles següents s''ha enviat correctament.
-
-Grup d''inventari: {{ inventory_pool.name }}
-
+La teva comanda a {{ inventory_pool.name }} està pendent d’aprovació. Rebràs un altre correu quan l’equip l’hagi revisat.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
-Motiu:
+### Finalitat
 {{ purpose }}
 
-La teva comanda encara està pendent, però aviat rebràs la confirmació en un altre correu. Pots consultar l''estat de la comanda al teu compte de leihs.
+[Veure la comanda]({{ rental_url }})
 
-Salutacions cordials,
+---
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+Aquest és un missatge automàtic de leihs.
+', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', 'Hem rebut la teva comanda');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2d331c01-f140-4fc4-9bcd-4e59744c493a', NULL, 'approved', 'markdown', '<!-- green -->
+# La teva comanda està confirmada
 
-El nostre horari d''atenció és el següent:
-{{ inventory_pool.workdays }}
+Hola, {{ user.name }}:
 
-Tingues en compte els nostres dies festius previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', '[leihs] Comanda enviada');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2d331c01-f140-4fc4-9bcd-4e59744c493a', NULL, 'approved', 'text', 'Hola, {{ user.name }}:
-
-** Aquest és un missatge generat automàticament **
-
-El personal del grup d''inventari ha confirmat la teva comanda dels articles següents:
-
-Grup d''inventari: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} ha aprovat la teva comanda. Recull els articles a l’inici de la reserva.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
-{% if comment %}
-
-Comentaris del personal del grup d''inventari:
-
-{{ comment }}
-
+{% if comment and comment != "" %}
+> {{ comment }}
 {% endif %}
 
-Salutacions cordials,
+[Veure la comanda]({{ rental_url }})
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-El nostre horari d''atenció és el següent:
-{{ inventory_pool.workdays }}
+Aquest és un missatge automàtic de leihs.
+', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', 'La teva comanda està confirmada');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('ab929a44-f0e9-4109-a508-ecd6e2c9e5e1', NULL, 'rejected', 'markdown', '<!-- red -->
+# No s’ha pogut aprovar la teva comanda
 
-Tingues en compte els nostres dies festius previstos:
-{{ inventory_pool.holidays }}
+Hola, {{ user.name }}:
 
-{{ inventory_pool.description }}
-', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', '[leihs] Comanda confirmada');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('ab929a44-f0e9-4109-a508-ecd6e2c9e5e1', NULL, 'rejected', 'text', 'Hola, {{ user.name }}:
-
-** Aquest és un missatge generat automàticament **
-
-La teva comanda s''ha rebutjat pel motiu següent:
-
-Grup d''inventari: {{ inventory_pool.name }}
-
+{{ inventory_pool.name }} no ha pogut aprovar la teva comanda d’aquests articles:
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
-{{ comment }}
-
-Salutacions cordials,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-El nostre horari d''atenció és el següent:
-{{ inventory_pool.workdays }}
-
-Tingues en compte els nostres dies festius previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', '[leihs] Comanda rebutjada');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2a84c23c-b941-4bc7-b236-4be09ebb6781', NULL, 'reminder', 'text', 'Hola, {{ user.name }}:
-
-** Aquest és un missatge generat automàticament **
-
-Els articles següents s''havien d''haver retornat o s''han de revisar:
-
-{{ quantity }} article(s) amb retorn el {{ due_date | date: ''%d/%m/%Y'' }} al grup d''inventari {{ inventory_pool.name }}
-{% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
-
-== Algun d''aquests articles és el teu ordinador personal?
-
-Et demanem que et posis en contacte amb nosaltres com més aviat millor. Potser el teu ordinador necessita una actualització.
-
-== Algun d''aquests articles és un préstec?
-
-Com que no hem rebut cap sol·licitud de pròrroga, et demanem que els retornis sense més demora.
-
-Si no els retornes, bloqueges les reserves d''altres persones. Això és molt injust per a la resta d''usuaris i per al personal del grup d''inventari, perquè els causa moltes molèsties.
-
-Podries rebre una amonestació, haver de pagar recàrrecs per retard i veure limitat el teu dret a demanar préstecs. Si es repeteix, podries quedar exclòs del sistema de reserves fins a 6 mesos.
-
-Salutacions cordials,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-El nostre horari d''atenció és el següent:
-{{ inventory_pool.workdays }}
-
-Tingues en compte els nostres dies festius previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'user', 'ca', '[leihs] Recordatori');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('04c228d7-edbb-49c9-97cc-a8b8357b0e1b', NULL, 'deadline_soon_reminder', 'text', 'Hola, {{ user.name }}:
-
-** Aquest és un missatge generat automàticament **
-
-Els articles següents s''han de retornar demà o s''han de revisar:
-
-{{ quantity }} article(s) amb retorn el {{ due_date | date: ''%d/%m/%Y'' }} al grup d''inventari {{ inventory_pool.name }}
-{% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
-
-== Algun d''aquests articles és el teu ordinador personal?
-
-Et demanem que et posis en contacte amb nosaltres com més aviat millor. Potser el teu ordinador necessita una actualització.
-
-== Algun d''aquests articles és un préstec?
-
-T''enviem aquest recordatori perquè una altra persona ja espera algun d''aquests articles.
-
-Per respecte a la resta d''usuaris, et demanem que compleixis les dates de retorn.
-
-Salutacions cordials,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-El nostre horari d''atenció és el següent:
-{{ inventory_pool.workdays }}
-
-Tingues en compte els nostres dies festius previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'user', 'ca', '[leihs] Alguns articles s''han de retornar demà');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('b7627dae-be7c-45a3-b614-b44f0efaee80', NULL, 'submitted', 'text', 'Hola, {{ user.name }}:
-
-** Este es un mensaje generado automáticamente **
-
-Tu pedido de los siguientes artículos se ha enviado correctamente.
-
-Grupo de inventario: {{ inventory_pool.name }}
-
-{% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
-
-Motivo:
-{{ purpose }}
-
-Tu pedido todavía está pendiente, pero pronto recibirás la confirmación en otro correo. Puedes consultar el estado del pedido en tu cuenta de leihs.
-
-Saludos cordiales,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Nuestro horario de atención es el siguiente:
-{{ inventory_pool.workdays }}
-
-Ten en cuenta nuestros días festivos previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.785684', '2025-02-13 10:06:19.76671', true, 'order', 'es', '[leihs] Pedido enviado');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2b265bcf-cd7e-490f-a22f-dec80ed72520', NULL, 'approved', 'text', 'Hola, {{ user.name }}:
-
-** Este es un mensaje generado automáticamente **
-
-El personal del grupo de inventario ha confirmado tu pedido de los siguientes artículos:
-
-Grupo de inventario: {{ inventory_pool.name }}
-
-{% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
-
-{% if comment %}
-
-Comentarios del personal del grupo de inventario:
-
-{{ comment }}
-
+{% if comment and comment != "" %}
+> {{ comment }}
 {% endif %}
 
-Saludos cordiales,
+Si tens cap dubte, respon aquest correu.
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Nuestro horario de atención es el siguiente:
-{{ inventory_pool.workdays }}
+Aquest és un missatge automàtic de leihs.
+', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'order', 'ca', 'No s’ha pogut aprovar la teva comanda');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2a84c23c-b941-4bc7-b236-4be09ebb6781', NULL, 'reminder', 'markdown', '<!-- red -->
+# Hi ha articles endarrerits
 
-Ten en cuenta nuestros días festivos previstos:
-{{ inventory_pool.holidays }}
+Hola, {{ user.name }}:
 
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.795054', '2025-02-13 10:06:19.768302', true, 'order', 'es', '[leihs] Pedido confirmado');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('3ef10a4c-c101-4553-8757-2e8c4f3491b7', NULL, 'rejected', 'text', 'Hola, {{ user.name }}:
-
-** Este es un mensaje generado automáticamente **
-
-Tu pedido se ha rechazado por el siguiente motivo:
-
-Grupo de inventario: {{ inventory_pool.name }}
-
+El termini per retornar aquests articles de {{ inventory_pool.name }} va vèncer el {{ due_date | date: ''%d/%m/%Y'' }}. Retorna’ls tan aviat com puguis: altres persones poden tenir-los reservats.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }}, {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-{{ comment }}
+Si necessites més temps, o hi ha alguna cosa que no és correcta, respon aquest correu. Els retorns amb retard poden limitar les teves properes reserves.
 
-Saludos cordiales,
+[Veure els préstecs]({{ rental_url }})
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+---
 
-Nuestro horario de atención es el siguiente:
-{{ inventory_pool.workdays }}
+Aquest és un missatge automàtic de leihs.
+', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'user', 'ca', 'Hi ha articles endarrerits');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('04c228d7-edbb-49c9-97cc-a8b8357b0e1b', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Articles per retornar demà
 
-Ten en cuenta nuestros días festivos previstos:
-{{ inventory_pool.holidays }}
+Hola, {{ user.name }}:
 
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.804802', '2025-02-13 10:06:19.760751', true, 'order', 'es', '[leihs] Pedido rechazado');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('76041eb2-061a-4aa9-8d32-3c4327dad7b2', NULL, 'reminder', 'text', 'Hola, {{ user.name }}:
-
-** Este es un mensaje generado automáticamente **
-
-Los siguientes artículos ya tendrían que haberse devuelto o deben revisarse:
-
-{{ quantity }} artículo(s) con devolución el {{ due_date | date: ''%d/%m/%Y'' }} en el grupo de inventario {{ inventory_pool.name }}
+Un recordatori: aquests articles de {{ inventory_pool.name }} s’han de retornar el {{ due_date | date: ''%d/%m/%Y'' }}.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
 
-== ¿Alguno de estos artículos es tu ordenador personal?
+Potser algú els està esperant, així que intenta retornar-los a temps. Si necessites més temps, respon aquest correu.
 
-Te pedimos que te pongas en contacto con nosotros lo antes posible. Puede que tu ordenador necesite una actualización.
+[Veure els préstecs]({{ rental_url }})
 
-== ¿Alguno de estos artículos es un préstamo?
+---
 
-Como no hemos recibido ninguna solicitud de prórroga, te pedimos que los devuelvas sin más demora.
+Aquest és un missatge automàtic de leihs.
+', '2026-10-13 21:37:44.570894', '2026-10-13 21:37:44.570894', true, 'user', 'ca', 'Articles per retornar demà');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('b7627dae-be7c-45a3-b614-b44f0efaee80', NULL, 'submitted', 'markdown', '<!-- amber -->
+# Recibimos tu pedido
 
-Si no los devuelves, bloqueas las reservas de otras personas. Esto es muy injusto para el resto de usuarios y para el personal del grupo de inventario, porque les causa muchas molestias.
+Hola, {{ user.name }}:
 
-Podrías recibir una amonestación, tener que pagar recargos por retraso y ver limitado tu derecho a pedir préstamos. Si se repite, podrías quedar excluido del sistema de reservas hasta 6 meses.
-
-Saludos cordiales,
-
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
-
-Nuestro horario de atención es el siguiente:
-{{ inventory_pool.workdays }}
-
-Ten en cuenta nuestros días festivos previstos:
-{{ inventory_pool.holidays }}
-
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.738895', '2025-02-13 10:06:19.759924', true, 'user', 'es', '[leihs] Recordatorio');
-INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('5a200443-d0fd-4a8c-8417-29593bb565af', NULL, 'deadline_soon_reminder', 'text', 'Hola, {{ user.name }}:
-
-** Este es un mensaje generado automáticamente **
-
-Los siguientes artículos deben devolverse mañana o deben revisarse:
-
-{{ quantity }} artículo(s) con devolución el {{ due_date | date: ''%d/%m/%Y'' }} en el grupo de inventario {{ inventory_pool.name }}
+Tu pedido en {{ inventory_pool.name }} está pendiente de aprobación. Llegará otro correo en cuanto el equipo lo revise.
 {% for l in reservations %}
-* {{ l.quantity }} {{ l.model_name }} ({{ l.item_inventory_code }}), {{ l.start_date | date: ''%d/%m/%Y'' }}{% if l.start_time %} {{ l.start_time }}{% endif %} - {{ l.end_date | date: ''%d/%m/%Y'' }}{% if l.end_time %} {{ l.end_time }}{% endif %}
-{% endfor %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
-== ¿Alguno de estos artículos es tu ordenador personal?
+### Finalidad
+{{ purpose }}
 
-Te pedimos que te pongas en contacto con nosotros lo antes posible. Puede que tu ordenador necesite una actualización.
+[Ver el pedido]({{ rental_url }})
 
-== ¿Alguno de estos artículos es un préstamo?
+---
 
-Te enviamos este recordatorio porque otra persona ya está esperando alguno de estos artículos.
+Este es un mensaje automático de leihs.
+', '2022-08-19 10:02:17.785684', '2025-02-13 10:06:19.76671', true, 'order', 'es', 'Recibimos tu pedido');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('2b265bcf-cd7e-490f-a22f-dec80ed72520', NULL, 'approved', 'markdown', '<!-- green -->
+# Tu pedido está confirmado
 
-Por respeto al resto de usuarios, te pedimos que cumplas las fechas de devolución.
+Hola, {{ user.name }}:
 
-Saludos cordiales,
+{{ inventory_pool.name }} aprobó tu pedido. Los artículos se recogen al comienzo de la reserva.
+{% for l in reservations %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
 
---
-{{ inventory_pool.name }}
-{{ inventory_pool.contact }}
+{% if comment and comment != "" %}
+> {{ comment }}
+{% endif %}
 
-Nuestro horario de atención es el siguiente:
-{{ inventory_pool.workdays }}
+[Ver el pedido]({{ rental_url }})
 
-Ten en cuenta nuestros días festivos previstos:
-{{ inventory_pool.holidays }}
+---
 
-{{ inventory_pool.description }}
-', '2022-08-19 10:02:17.748175', '2025-02-13 10:06:19.763569', true, 'user', 'es', '[leihs] Algunos artículos deben devolverse mañana');
+Este es un mensaje automático de leihs.
+', '2022-08-19 10:02:17.795054', '2025-02-13 10:06:19.768302', true, 'order', 'es', 'Tu pedido está confirmado');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('3ef10a4c-c101-4553-8757-2e8c4f3491b7', NULL, 'rejected', 'markdown', '<!-- red -->
+# No se pudo aprobar tu pedido
+
+Hola, {{ user.name }}:
+
+{{ inventory_pool.name }} no pudo aprobar tu pedido de estos artículos:
+{% for l in reservations %}
+- **{{ l.quantity }} × {{ l.model_name }}** · {% if l.time_slot %}{{ l.start_date | date: ''%d/%m/%Y'' }}, {{ l.time_slot }}{% elsif l.start_date == l.end_date %}{{ l.start_date | date: ''%d/%m/%Y'' }}{% else %}{{ l.start_date | date: ''%d/%m/%Y'' }} – {{ l.end_date | date: ''%d/%m/%Y'' }}{% endif %}{% endfor %}
+
+{% if comment and comment != "" %}
+> {{ comment }}
+{% endif %}
+
+Para cualquier duda, basta con responder a este correo.
+
+---
+
+Este es un mensaje automático de leihs.
+', '2022-08-19 10:02:17.804802', '2025-02-13 10:06:19.760751', true, 'order', 'es', 'No se pudo aprobar tu pedido');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('76041eb2-061a-4aa9-8d32-3c4327dad7b2', NULL, 'reminder', 'markdown', '<!-- red -->
+# Hay artículos atrasados
+
+Hola, {{ user.name }}:
+
+El plazo para devolver estos artículos de {{ inventory_pool.name }} venció el {{ due_date | date: ''%d/%m/%Y'' }}. Es importante devolverlos cuanto antes: otras personas pueden tenerlos reservados.
+{% for l in reservations %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
+
+Para pedir más tiempo, o si algo de esto no es correcto, basta con responder a este correo. Las devoluciones con retraso pueden limitar las próximas reservas.
+
+[Ver los préstamos]({{ rental_url }})
+
+---
+
+Este es un mensaje automático de leihs.
+', '2022-08-19 10:02:17.738895', '2025-02-13 10:06:19.759924', true, 'user', 'es', 'Hay artículos atrasados');
+INSERT INTO public.mail_templates (id, inventory_pool_id, name, format, body, created_at, updated_at, is_template_template, type, language_locale, subject) VALUES ('5a200443-d0fd-4a8c-8417-29593bb565af', NULL, 'deadline_soon_reminder', 'markdown', '<!-- amber -->
+# Artículos para devolver mañana
+
+Hola, {{ user.name }}:
+
+Un recordatorio: estos artículos de {{ inventory_pool.name }} se devuelven el {{ due_date | date: ''%d/%m/%Y'' }}.
+{% for l in reservations %}
+- **{{ l.quantity }} × {{ l.model_name }}**{% if l.item_inventory_code %} · {{ l.item_inventory_code }}{% endif %}{% if l.time_slot %} · {{ l.time_slot }}{% endif %}{% endfor %}
+
+Puede que alguien los esté esperando, así que conviene devolverlos a tiempo. Para pedir más tiempo, basta con responder a este correo.
+
+[Ver los préstamos]({{ rental_url }})
+
+---
+
+Este es un mensaje automático de leihs.
+', '2022-08-19 10:02:17.748175', '2025-02-13 10:06:19.763569', true, 'user', 'es', 'Artículos para devolver mañana');
 
 
 --
